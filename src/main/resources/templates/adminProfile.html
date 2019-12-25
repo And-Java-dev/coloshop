@@ -336,17 +336,18 @@
                         <div class="owl-carousel owl-theme product_slider">
 
 
+
                             <div class="owl-item product_slider_item" th:each="product:${products}">
-                                <div class="product-item women">
+                                <div class="product-item women" >
                                     <div class="product" >
-                                        <div class="product_image" >
+                                        <div class="product_image">
                                             <img th:src="@{/getImage(picUrl=${product.imagePath})}" alt="">
                                         </div>
                                         <div class="favorite"></div>
                                         <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center">
                                             <span>new</span></div>
                                         <div class="product_info">
-                                            <h6 class="product_name"><a href="/single" th:text="${product.name}" th:value="${product.id}"></a></h6>
+                                            <h6 class="product_name"><a th:href="@{/single(id=${product.id})}" th:text="${product.name}" ></a></h6>
                                             <div class="product_price"th:text="${product.price}"></div>
                                             <a th:href="@{/delete(id=${product.id})}">Delete</a>
                                         </div>

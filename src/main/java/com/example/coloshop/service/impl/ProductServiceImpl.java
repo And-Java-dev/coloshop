@@ -44,6 +44,8 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+
+
     @Override
     public void addProduct(int category_id, User user, MultipartFile multipartFile, Product product, List<Size> sizes) throws IOException {
         String picUrl = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
@@ -60,6 +62,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findByPageable(Pageable pageable) {
         return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Product> findAllByUserId(int user_id) {
+        return productRepository.findAllByUserId(user_id);
     }
 
 

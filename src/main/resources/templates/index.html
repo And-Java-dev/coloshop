@@ -360,7 +360,20 @@
                                 </div>
                             </div>
                         </div>
-
+<div>
+    <span th:if="${products.hasPrevious()}">
+        <a th:href="@{/(page=${products.number-1},size=${products.size})}">Previous</a>
+    </span>
+    <th:block th:each="i: ${#numbers.sequence(0, products.totalPages - 1)}">
+        <span th:if="${products.number == i}" class="selected">[[${i}+1]]</span>
+        <span th:unless="${products.number == i}">
+             <a th:href="@{/(page=${i},size=${products.size})}">[[${i}+1]]</a>
+        </span>
+    </th:block>
+    <span th:if="${products.hasNext()}">
+        <a th:href="@{/(page=${products.number+1},size=${products.size})}">Next</a>
+    </span>
+</div>
                         <!-- Slider Navigation -->
 
                         <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">

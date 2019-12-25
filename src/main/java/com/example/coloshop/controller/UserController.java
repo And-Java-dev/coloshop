@@ -78,10 +78,9 @@ public class UserController {
                              @RequestParam("image") MultipartFile multipartFile,
                              Product product,@RequestParam("size") List<Size> sizes) throws IOException {
         productService.addProduct(category_id,currentUser.getUser(), multipartFile,product,sizes);
-        if (currentUser.getUser().getType().name().equals("ADMIN")){
-            return "adminProfile";
-        }
-        return "userProfile";
+
+
+        return "redirect:/profile";
 
     }
 
@@ -89,7 +88,8 @@ public class UserController {
     public String profile(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
         modelMap.addAttribute("user", currentUser.getUser());
         modelMap.addAttribute("categories", categoryService.findAll());
-        modelMap.addAttribute("products",currentUser.getUser().getProducts());
+        List<Product> products = productService.findAllByUserId(currentUser.getUser().getId());
+        modelMap.addAttribute("products",products);
         modelMap.addAttribute("size", Size.values());
         if (currentUser.getUser().getType().name().equals("ADMIN")){
             return "adminProfile";

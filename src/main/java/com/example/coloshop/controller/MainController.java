@@ -7,6 +7,8 @@ import com.example.coloshop.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -35,11 +37,12 @@ public class MainController {
 
 
     @GetMapping("/")
-    public String home(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
+    public String home(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser,
+                       @PageableDefault(size = 5, page = 0) Pageable pageable) {
         if (currentUser != null) {
             modelMap.addAttribute("user", currentUser.getUser());
         }
-        modelMap.addAttribute("products",productRepository.findAll());
+        modelMap.addAttribute("products",productService.findByPageable(pageable));
         modelMap.addAttribute("categories",categoryService.findAll());
         log.info("Home page was opened.");
         return "index";

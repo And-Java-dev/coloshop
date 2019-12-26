@@ -1,11 +1,9 @@
 package com.example.coloshop.controller;
 
-import com.example.coloshop.repository.ProductRepository;
 import com.example.coloshop.security.CurrentUser;
 import com.example.coloshop.service.CategoryService;
 import com.example.coloshop.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -26,12 +24,10 @@ public class MainController {
     private String imageUploadDir;
 
     private final ProductService productService;
-    private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-    public MainController(ProductService productService, ProductRepository productRepository, CategoryService categoryService) {
+    public MainController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
-        this.productRepository = productRepository;
         this.categoryService = categoryService;
     }
 
@@ -57,7 +53,7 @@ public class MainController {
 
     @GetMapping("/single")
     public String single(ModelMap modelMap,@RequestParam("id") int  id,@AuthenticationPrincipal CurrentUser currentUser){
-        modelMap.addAttribute(productRepository.getOne(id));
+        modelMap.addAttribute(productService.getOne(id));
         if (currentUser.getUser() != null) {
             modelMap.addAttribute("user", currentUser.getUser());
         }
@@ -66,14 +62,7 @@ public class MainController {
 
 
 
-    @GetMapping("/categories")
-    public String categories(ModelMap modelMap,@RequestParam("name") String name,@AuthenticationPrincipal CurrentUser currentUser){
-        modelMap.addAttribute("products",productRepository.findAllByCategoryName(name));
-        if (currentUser.getUser() != null) {
-            modelMap.addAttribute("user", currentUser.getUser());
-        }
-        return "categories";
-    }
+
 
 
 }

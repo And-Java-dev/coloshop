@@ -15,12 +15,19 @@ public interface ProductService {
 
     byte[] getImage(String picUrl) throws IOException;
 
-
     void addProduct(int category_id, User user, MultipartFile multipartFile, Product product, List<Size> sizes) throws IOException;
+
+    List<Product>findAllByName(String name);
+
+    void delete(Product product);
 
     Page<Product> findByPageable(Pageable pageable);
 
+    Product getOne(int id);
+
     List<Product> findAllByUserId(int user_id);
+
     List<Product> findAllByCategoryName(String catName);
+
     void addProductOnBasket(User user,int prod_id);
 }

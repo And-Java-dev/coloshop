@@ -9,6 +9,7 @@ import java.util.List;
 public interface CategoryService {
 
     List<Category> findAll();
+
     void addCategory(MultipartFile multipartFile,Category category);
 
 }

@@ -60,8 +60,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findAllByName(String name) {
+        return productRepository.findAllByName(name);
+    }
+
+    @Override
+    public  void delete(Product product){
+        productRepository.delete(product);
+    }
+
+    @Override
     public Page<Product> findByPageable(Pageable pageable) {
         return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public Product getOne(int id) {
+        return productRepository.getOne(id);
     }
 
     @Override

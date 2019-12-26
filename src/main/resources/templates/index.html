@@ -169,22 +169,6 @@
                         </div>
                     </div>
                 </div>
-<!--                <div class="col-md-4">-->
-<!--                    <div class="banner_item align-items-center"-->
-<!--                         style="background-image:url(/images/banner_2.jpg)">-->
-<!--                        <div class="banner_category">-->
-<!--                            <a href="/categories">accessories's</a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-md-4">-->
-<!--                    <div class="banner_item align-items-center"-->
-<!--                         style="background-image:url(/images/banner_3.jpg)">-->
-<!--                        <div class="banner_category">-->
-<!--                            <a href="/categories">men's</a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
             </div>
         </div>
     </div>
@@ -203,18 +187,12 @@
             <div class="row align-items-center">
                 <div class="col text-center">
                     <div class="new_arrivals_sorting">
-                        <ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
+                        <ul class="arrivals_grid_sorting clearfix button-group filters-button-group" th:each="category:${categories}">
                             <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked"
                                 data-filter="*">all
                             </li>
                             <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center"
-                                data-filter=".women">women's
-                            </li>
-                            <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center"
-                                data-filter=".accessories">accessories
-                            </li>
-                            <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center"
-                                data-filter=".men">men's
+                               th:data-filter="${category.name}" th:text="${category.name}">
                             </li>
                         </ul>
                     </div>
@@ -244,48 +222,25 @@
                             <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
                         </div>
 
-                        <!-- Product 2 -->
-
-<!--                        <div class="product-item women" th:if="${product.category.name == 'women'}">-->
-<!--                            <div class="product product_filter">-->
-<!--                                <div class="product_image">-->
-<!--                                    <img th:src="@{/getImage(picUrl=${product.imagePath})}" alt="">-->
-<!--                                </div>-->
-<!--                                <div class="favorite"></div>-->
-<!--                                <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center">-->
-<!--                                    <span>new</span></div>-->
-<!--                                <div class="product_info">-->
-<!--                                    <h6 class="product_name"><a href="single.html">Samsung CF591 Series Curved 27-Inch-->
-<!--                                        FHD Monitor</a></h6>-->
-<!--                                    <div class="product_price">$610.00</div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>-->
-<!--                        </div>-->
-
-
-<!--                        <div class="product-item accessories" th:if="${product.category.name == 'accessories'}">-->
-<!--                            <div class="product product_filter">-->
-<!--                                <div class="product_image">-->
-<!--                                    <img th:src="@{/getImage(picUrl=${product.imagePath})}" alt="">-->
-<!--                                </div>-->
-<!--                                <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center">-->
-<!--                                    <span>sale</span></div>-->
-<!--                                <div class="favorite favorite_left"></div>-->
-<!--                                <div class="product_info">-->
-<!--                                    <h6 class="product_name"><a href="single.html">DYMO LabelWriter 450 Turbo Thermal-->
-<!--                                        Label Printer</a></h6>-->
-<!--                                    <div class="product_price">$410.00</div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+<div>
+    <span th:if="${products.hasPrevious()}">
+        <a th:href="@{/(page=${products.number-1},size=${products.size})}">Previous</a>
+    </span>
+    <th:block th:each="i: ${#numbers.sequence(0, products.totalPages - 1)}">
+        <span th:if="${products.number == i}" class="selected">[[${i}+1]]</span>
+        <span th:unless="${products.number == i}">
+             <a th:href="@{/(page=${i},size=${products.size})}">[[${i}+1]]</a>
+        </span>
+    </th:block>
+    <span th:if="${products.hasNext()}">
+        <a th:href="@{/(page=${products.number+1},size=${products.size})}">Next</a>
+    </span>
+</div>
     <!-- Deal of the week -->
 
     <div class="deal_ofthe_week">
@@ -328,52 +283,8 @@
 
     <!-- Best Sellers -->
 
-    <div class="best_sellers">
-        <div class="container">
-            <div class="row">
-                <div class="col text-center">
-                    <div class="section_title new_arrivals_title">
-                        <h2>Best Sellers</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row" >
-                <div class="col">
-                    <div class="product_slider_container">
-                        <div class="owl-carousel owl-theme product_slider">
 
 
-                            <div class="owl-item product_slider_item" th:each="product:${products}">
-                                <div class="product-item women" >
-                                    <div class="product" >
-                                        <div class="product_image">
-                                            <img th:src="@{/getImage(picUrl=${product.imagePath})}" alt="">
-                                        </div>
-                                        <div class="favorite"></div>
-                                        <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center">
-                                            <span>new</span></div>
-                                        <div class="product_info">
-                                            <h6 class="product_name"><a th:href="@{/single(id=${product.id})}" th:text="${product.name}" ></a></h6>
-                                            <div class="product_price"th:text="${product.price}"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-<div>
-    <span th:if="${products.hasPrevious()}">
-        <a th:href="@{/(page=${products.number-1},size=${products.size})}">Previous</a>
-    </span>
-    <th:block th:each="i: ${#numbers.sequence(0, products.totalPages - 1)}">
-        <span th:if="${products.number == i}" class="selected">[[${i}+1]]</span>
-        <span th:unless="${products.number == i}">
-             <a th:href="@{/(page=${i},size=${products.size})}">[[${i}+1]]</a>
-        </span>
-    </th:block>
-    <span th:if="${products.hasNext()}">
-        <a th:href="@{/(page=${products.number+1},size=${products.size})}">Next</a>
-    </span>
-</div>
                         <!-- Slider Navigation -->
 
                         <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">

@@ -103,9 +103,9 @@
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
-									<a href="#">
+									<a th:href="@{/basket(id=${product.id})}">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">2</span>
+										<span id="checkout_items" class="checkout_items" th:text="${products.size()}"></span>
 									</a>
 								</li>
 							</ul>
@@ -196,9 +196,9 @@
 					<div class="row">
 						<div class="col-lg-3 thumbnails_col order-lg-1 order-2">
 							<div class="single_product_thumbnails">
-								<ul>
+								<ul th:each="imag :${images}">
 									<li><img src="/images/single_1_thumb.jpg" alt="" data-image="images/single_1.jpg"></li>
-									<li class="active"><img th:src="@{/getImage(picUrl=${product.imagePath})}" alt=""></li>
+									<li class="active"><img th:src="@{/getImage(picUrl=${imag.name})}" alt=""></li>
 									<li><img src="/images/single_3_thumb.jpg" alt="" data-image="images/single_3.jpg"></li>
 								</ul>
 							</div>
@@ -220,8 +220,8 @@
 					<div class="free_delivery d-flex flex-row align-items-center justify-content-center">
 						<span class="ti-truck"></span><span>free delivery</span>
 					</div>
-					<div class="original_price">$629.99</div>
-					<div class="product_price">$495.00</div>
+<!--					<div class="original_price" ></div>-->
+					<div class="product_price"th:text="${product.price}"></div>
 					<ul class="star_rating">
 						<li><i class="fa fa-star" aria-hidden="true"></i></li>
 						<li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -284,23 +284,23 @@
 									<h2 th:text="${product.name}"></h2>
 									<p th:text="${product.description}"></p>
 								</div>
-								<div class="tab_image">
-									<img th:src="@{/getImage(picUrl=${product.imagePath})}" alt="">
+								<div class="tab_image" th:each="imag :${images}">
+									<img th:src="@{/getImage(picUrl=${imag.name})}" alt="">
 								</div>
 								<div class="tab_text_block">
 									<h2 th:text="${product.name}"></h2>
 									<p th:text="${product.description}"></p>
 								</div>
 							</div>
-							<div class="col-lg-5 offset-lg-2 desc_col">
+							<div class="col-lg-5 offset-lg-2 desc_col" th:each="imag :${images}">
 								<div class="tab_image">
-									<img th:src="@{/getImage(picUrl=${product.imagePath})}" alt="">
+									<img th:src="@{/getImage(picUrl=${imag.name})}" alt="">
 								</div>
 								<div class="tab_text_block">
 									<h2 th:text="${product.name}"></h2>
 									<p th:text="${product.description}"></p>								</div>
-								<div class="tab_image desc_last">
-									<img th:src="@{/getImage(picUrl=${product.imagePath})}" alt="">
+								<div class="tab_image desc_last" >
+									<img th:src="@{/getImage(picUrl=${imag.name})}" alt="">
 								</div>
 							</div>
 						</div>

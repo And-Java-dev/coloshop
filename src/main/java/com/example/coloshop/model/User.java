@@ -1,6 +1,8 @@
 package com.example.coloshop.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
     @Id
@@ -37,6 +40,7 @@ public class User {
     @Column
     private String token;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER,mappedBy = "users")
     private List<Product> products;
 

@@ -102,9 +102,9 @@
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
-									<a href="#">
+									<a th:href="@{/basket(id=${product.id})}">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">2</span>
+										<span id="checkout_items" class="checkout_items" th:text="${products.size()}"></span>
 									</a>
 								</li>
 							</ul>
@@ -225,6 +225,7 @@
 							<li><i class="fa fa-square-o" aria-hidden="true"></i><span>L</span></li>
 							<li><i class="fa fa-square-o" aria-hidden="true"></i><span>XL</span></li>
 							<li><i class="fa fa-square-o" aria-hidden="true"></i><span>XXL</span></li>
+							<li><i class="fa fa-square-o" aria-hidden="true"></i><span>XXXL</span></li>
 						</ul>
 					</div>
 

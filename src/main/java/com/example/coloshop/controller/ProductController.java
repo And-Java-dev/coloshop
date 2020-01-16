@@ -10,8 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -23,10 +26,12 @@ public class ProductController {
         this.productService = productService;
     }
 
+
+
     @PostMapping(value = "/addProduct")
     public String addProduct(@RequestParam("category_id") int category_id,
                              @AuthenticationPrincipal CurrentUser currentUser,
-                             @RequestParam("image") MultipartFile multipartFile,
+                             @RequestParam("image") MultipartFile [] multipartFile,
                              Product product, @RequestParam("size") List<Size> sizes) throws IOException {
         productService.addProduct(category_id,currentUser.getUser(), multipartFile,product,sizes);
 

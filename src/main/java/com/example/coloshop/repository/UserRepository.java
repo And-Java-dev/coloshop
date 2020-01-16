@@ -3,8 +3,10 @@ package com.example.coloshop.repository;
 import com.example.coloshop.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User,Integer> {
-    User findByEmail(String username);
+import java.util.Optional;
 
+public interface UserRepository extends JpaRepository<User,Integer> {
+//    User findByEmail(String username);
+    Optional<User> findByEmail(String email);
     User findByToken(String token);
 }

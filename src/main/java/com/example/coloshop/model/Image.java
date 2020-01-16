@@ -1,15 +1,19 @@
 package com.example.coloshop.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import javax.persistence.*;
 
-@Data
+import javax.persistence.*;
+import java.util.List;
+
 @Entity
-@Table(name = "category")
+@Data
+@Table(name = "image")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Category {
+
+public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +22,8 @@ public class Category {
     @Column
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Image img;
+
+    @JsonIgnore
+    @ManyToMany(cascade=CascadeType.ALL ,mappedBy = "images")
+    private List<Product> products;
 }

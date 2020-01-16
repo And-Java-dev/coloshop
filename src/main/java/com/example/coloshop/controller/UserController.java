@@ -52,7 +52,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerPost(@ModelAttribute User user) {
-        if (!userService.isEmailExists(user.getEmail())) {
+        if (userService.isEmailExists(user.getEmail())) {
             userService.register(user);
             return "redirect:/";
         }
@@ -69,12 +69,13 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public String profile(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
+    public String profile(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser/*@RequestParam("id") int id*/) {
         modelMap.addAttribute("user", currentUser.getUser());
         modelMap.addAttribute("categories", categoryService.findAll());
         List<Product> products = productService.findAllByUserId(currentUser.getUser().getId());
         modelMap.addAttribute("products",products);
         modelMap.addAttribute("size", Size.values());
+//        modelMap.addAttribute(productService.getOne(id));
         if (currentUser.getUser().getType().name().equals("ADMIN")){
             return "adminProfile";
         }

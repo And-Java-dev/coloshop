@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -55,6 +56,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+
     @Override
     public void addProductOnBasket(User user,int prod_id) {
         List<Product> products = new ArrayList<>();
@@ -66,5 +69,36 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isEmailExists(String email){
        return userRepository.findByEmail(email) != null;
+    }
+
+
+    public boolean isExists(String email){
+        return userRepository.findByEmail(email).isPresent();
+    }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        Optional<User> byEmail = userRepository.findByEmail(email);
+        return byEmail.get();
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User findById(int id) {
+        return userRepository.getOne(id);
     }
 }

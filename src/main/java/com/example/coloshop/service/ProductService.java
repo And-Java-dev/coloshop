@@ -6,6 +6,7 @@ import com.example.coloshop.model.Size;
 import com.example.coloshop.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public interface ProductService {
 
     byte[] getImage(String picUrl) throws IOException;
 
-    void addProduct(int category_id, User user, MultipartFile multipartFile, Product product, List<Size> sizes) throws IOException;
+    ResponseEntity addProduct(int category_id, User user, MultipartFile [] multipartFile, Product product, List<Size> sizes) throws IOException;
 
     List<Product>findAllByName(String name);
 
@@ -29,5 +30,9 @@ public interface ProductService {
 
     List<Product> findAllByCategoryName(String catName);
 
+    List<Product> findAll();
+
     void addProductOnBasket(User user,int prod_id);
+
+    void save(Product product);
 }

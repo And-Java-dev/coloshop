@@ -98,10 +98,10 @@
                                 <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                                 <li class="checkout">
-                                    <a href="#">
-                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                        <span id="checkout_items" class="checkout_items">2</span>
-                                    </a>
+<!--                                    <a th:href="@{/basket(id=${product.id})}">-->
+<!--                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>-->
+<!--                                        <span id="checkout_items" class="checkout_items" th:text="${products.size()}"></span>-->
+<!--                                    </a>-->
                                 </li>
                             </ul>
                             <div class="hamburger_container">
@@ -163,7 +163,7 @@
             <div class="row" >
                 <div class="col-md-4" th:each="category:${categories}">
                     <div class="banner_item align-items-center"
-                        th:style="'background:url(' + @{/getImage(picUrl=${category.imagePath})} + ');'">
+                        th:style="'background:url(' + @{/getImage(picUrl=${category.img.name})} + ');'">
                         <div class="banner_category">
                             <a th:href="@{/categories(name=${category.name})}" th:text="${category.name}"></a>
                         </div>
@@ -187,11 +187,11 @@
             <div class="row align-items-center">
                 <div class="col text-center">
                     <div class="new_arrivals_sorting">
-                        <ul class="arrivals_grid_sorting clearfix button-group filters-button-group" th:each="category:${categories}">
+                        <ul class="arrivals_grid_sorting clearfix button-group filters-button-group" >
                             <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked"
                                 data-filter="*">all
                             </li>
-                            <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center"
+                            <li th:each="category:${categories}" class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center"
                                th:data-filter="${category.name}" th:text="${category.name}">
                             </li>
                         </ul>
@@ -207,9 +207,9 @@
 
                         <div class="product-item men" th:each="product:${products}" >
                             <div class="product" >
-                                <div class="product_image" >
-                                    <img th:src="@{/getImage(picUrl=${product.imagePath})}" alt="">
-                                </div>
+<!--                                <div class="product_image" th:each="image:${images}">-->
+<!--                                    <img th:src="@{/getImage(picUrl=${image.name})}" alt="">-->
+<!--                                </div>-->
                                 <div class="favorite"></div>
                                 <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center">
                                     <span>new</span></div>
@@ -227,20 +227,20 @@
             </div>
         </div>
     </div>
-<div>
-    <span th:if="${products.hasPrevious()}">
-        <a th:href="@{/(page=${products.number-1},size=${products.size})}">Previous</a>
-    </span>
-    <th:block th:each="i: ${#numbers.sequence(0, products.totalPages - 1)}">
-        <span th:if="${products.number == i}" class="selected">[[${i}+1]]</span>
-        <span th:unless="${products.number == i}">
-             <a th:href="@{/(page=${i},size=${products.size})}">[[${i}+1]]</a>
-        </span>
-    </th:block>
-    <span th:if="${products.hasNext()}">
-        <a th:href="@{/(page=${products.number+1},size=${products.size})}">Next</a>
-    </span>
-</div>
+<!--<div th:if="${products != null}">-->
+<!--    <span th:if="${products.hasPrevious()}">-->
+<!--        <a th:href="@{/(page=${products.number-1},size=${products.size})}">Previous</a>-->
+<!--    </span>-->
+<!--    <th:block th:each="i: ${#numbers.sequence(0, products.totalPages - 1)}">-->
+<!--        <span th:if="${products.number == i}" class="selected">[[${i}+1]]</span>-->
+<!--        <span th:unless="${products.number == i}">-->
+<!--             <a th:href="@{/(page=${i},size=${products.size})}">[[${i}+1]]</a>-->
+<!--        </span>-->
+<!--    </th:block>-->
+<!--    <span th:if="${products.hasNext()}">-->
+<!--        <a th:href="@{/(page=${products.number+1},size=${products.size})}">Next</a>-->
+<!--    </span>-->
+<!--</div>-->
     <!-- Deal of the week -->
 
     <div class="deal_ofthe_week">

@@ -1,5 +1,6 @@
 package com.example.coloshop.controller;
 
+import com.example.coloshop.model.Product;
 import com.example.coloshop.security.CurrentUser;
 import com.example.coloshop.service.CategoryService;
 import com.example.coloshop.service.ProductService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -37,7 +39,11 @@ public class MainController {
                        @PageableDefault(size = 5, page = 0) Pageable pageable) {
         if (currentUser != null) {
             modelMap.addAttribute("user", currentUser.getUser());
+            List<Product> products = productService.findAllByUserId(currentUser.getUser().getId());
+            modelMap.addAttribute("products",products);
         }
+//        modelMap.addAttribute("product",productService.getOne(id));
+//        modelMap.addAttribute("images",productService.getOne(id).getImages());
         modelMap.addAttribute("products",productService.findByPageable(pageable));
         modelMap.addAttribute("categories",categoryService.findAll());
         log.info("Home page was opened.");
@@ -54,8 +60,11 @@ public class MainController {
     @GetMapping("/single")
     public String single(ModelMap modelMap,@RequestParam("id") int  id,@AuthenticationPrincipal CurrentUser currentUser){
         modelMap.addAttribute(productService.getOne(id));
+        modelMap.addAttribute("images",productService.getOne(id).getImages());
         if (currentUser.getUser() != null) {
             modelMap.addAttribute("user", currentUser.getUser());
+            List<Product> products = productService.findAllByUserId(currentUser.getUser().getId());
+            modelMap.addAttribute("products",products);
         }
         return "single";
     }

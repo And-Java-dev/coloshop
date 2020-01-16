@@ -1,10 +1,8 @@
 package com.example.coloshop.service.impl;
 
-import com.example.coloshop.model.Category;
-import com.example.coloshop.model.Product;
-import com.example.coloshop.model.Size;
-import com.example.coloshop.model.User;
+import com.example.coloshop.model.*;
 import com.example.coloshop.repository.CategoryRepository;
+import com.example.coloshop.repository.ImageRepository;
 import com.example.coloshop.repository.ProductRepository;
 import com.example.coloshop.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,11 +29,13 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ImageRepository imageRepository;
 
 
-    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,ImageRepository imageRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.imageRepository = imageRepository;
     }
 
     @Override
@@ -46,17 +47,27 @@ public class ProductServiceImpl implements ProductService {
 
 
 
+
     @Override
-    public void addProduct(int category_id, User user, MultipartFile multipartFile, Product product, List<Size> sizes) throws IOException {
-        String picUrl = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
+    public ResponseEntity addProduct(int category_id, User user, MultipartFile [] multipartFile, Product product, List<Size> sizes) throws IOException {
+        Image image = null;
+        List<Image> images = new ArrayList<>();
+        for (MultipartFile file : multipartFile) {
+            String picUrl = UUID.randomUUID() + "_" + file.getOriginalFilename();
+            File file1 = new File(imageUploadDir, picUrl);
+            image =  new Image();
+            image.setName(picUrl);
+            file.transferTo(file1);
+            images.add(image);
+            imageRepository.save(image);
+        }
         Category one = categoryRepository.getOne(category_id);
-        File file = new File(imageUploadDir, picUrl);
         product.setSize(sizes);
-        multipartFile.transferTo(file);
-        product.setImagePath(picUrl);
+        product.setImages(images);
         product.setCategory(one);
         product.setUser(user);
         productRepository.save(product);
+        return null;
     }
 
     @Override
@@ -91,6 +102,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    @Override
     public void addProductOnBasket(User user,int prod_id) {
         List<User> users = new ArrayList<>();
         users.add(user);
@@ -98,6 +114,11 @@ public class ProductServiceImpl implements ProductService {
         one.setUsers(users);
         productRepository.save(one);
         log.info("product successfully added on your basket");
+    }
+
+    @Override
+    public void save(Product product) {
+        productRepository.save(product);
     }
 
 
